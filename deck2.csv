@@ -1,0 +1,61 @@
+Id,Name,T,Dork,CMC,W,U,B,R,G,Tap,T4,U4,Untap,F,Mana_val
+1,Teferi Time Raveler,PW,0,3,1,1,0,0,0,0,0,0,0,0,0
+2,Teferi Time Raveler,PW,0,3,1,1,0,0,0,0,0,0,0,0,0
+3,Teferi Time Raveler,PW,0,3,1,1,0,0,0,0,0,0,0,0,0
+4,Teferi Time Raveler,PW,0,3,1,1,0,0,0,0,0,0,0,0,0
+5,Niv Mizzet Reborn,C,0,5,1,1,1,1,1,0,0,0,0,0,0
+6,Niv Mizzet Reborn,C,0,5,1,1,1,1,1,0,0,0,0,0,0
+7,Niv Mizzet Reborn,C,0,5,1,1,1,1,1,0,0,0,0,0,0
+8,Siege Rhino,C,0,4,1,0,1,0,1,0,0,0,0,0,0
+9,Siege Rhino,C,0,4,1,0,1,0,1,0,0,0,0,0,0
+10,Siege Rhino,C,0,4,1,0,1,0,1,0,0,0,0,0,0
+11,Sylvan Caryatid,C,1,2,0,0,0,0,1,0,0,0,0,0,0
+12,Sylvan Caryatid,C,1,2,0,0,0,0,1,0,0,0,0,0,0
+13,Sylvan Caryatid,C,1,2,0,0,0,0,1,0,0,0,0,0,0
+14,Sylvan Caryatid,C,1,2,0,0,0,0,1,0,0,0,0,0,0
+15,Paradise Druid,C,1,2,0,0,0,0,1,0,0,0,0,0,0
+16,Paradise Druid,C,1,2,0,0,0,0,1,0,0,0,0,0,0
+17,Paradise Druid,C,1,2,0,0,0,0,1,0,0,0,0,0,0
+18,Tolsimir Friend to Wolves,C,0,5,1,0,0,0,2,0,0,0,0,0,0
+19,Uro,C,0,3,0,1,0,0,1,0,0,0,0,0,0
+20,Uro,C,0,3,0,1,0,0,1,0,0,0,0,0,0
+21,Bring To Light,S,0,5,1,1,1,1,1,0,0,0,0,0,0
+22,Bring To Light,S,0,5,1,1,1,1,1,0,0,0,0,0,0
+23,Bring To Light,S,0,5,1,1,1,1,1,0,0,0,0,0,0
+24,Bring To Light,S,0,5,1,1,1,1,1,0,0,0,0,0,0
+25,Cut // Ribbons,S,0,2,0,0,0,1,0,0,0,0,0,0,0
+26,Discovery // Dispersal,S,0,2,0,0.5,0.5,0,0,0,0,0,0,0,0
+27,Dreadbore,S,0,2,0,0,1,1,0,0,0,0,0,0,0
+28,Supreme Verdict,S,0,4,2,1,0,0,0,0,0,0,0,0,0
+29,Unmoored Ego,S,0,3,0,1,1,0,0,0,0,0,0,0,0
+30,Abrupt Decay,I,0,2,0,0,1,0,1,0,0,0,0,0,0
+31,Abrupt Decay,I,0,2,0,0,1,0,1,0,0,0,0,0,0
+32,Kolaghan's Command,I,0,3,0,0,1,1,0,0,0,0,0,0,0
+33,Utter End,I,0,4,1,0,1,0,0,0,0,0,0,0,0
+34,Oath of Kaya,E,0,3,1,0,1,0,0,0,0,0,0,0,0
+35,Blood Crypt,L,0,0,0,0,1,1,0,0,0,0,1,0,2
+36,Botanical Sanctum,L,0,0,0,1,0,0,1,0,1,0,1,0,2
+37,Botanical Sanctum,L,0,0,0,1,0,0,1,0,1,0,1,0,2
+38,Breeding Pool,L,0,0,0,1,0,0,1,0,0,0,1,0,2
+39,Fabled Passage,L,0,0,1,1,1,1,1,1,0,1,0,1,5
+40,Fabled Passage,L,0,0,1,1,1,1,1,1,0,1,0,1,5
+41,Fabled Passage,L,0,0,1,1,1,1,1,1,0,1,0,1,5
+42,Fabled Passage,L,0,0,1,1,1,1,1,1,0,1,0,1,5
+43,Forest,L,0,0,0,0,0,0,1,0,0,0,1,0,1
+44,Frontier Bivouac,L,0,0,0,1,0,1,1,1,0,0,0,0,3
+45,Godless Shrine,L,0,0,1,0,1,0,0,0,0,0,1,0,2
+46,Godless Shrine,L,0,0,1,0,1,0,0,0,0,0,1,0,2
+47,Island,L,0,0,0,1,0,0,0,0,0,0,1,0,1
+48,Mountain,L,0,0,0,0,0,1,0,0,0,0,1,0,1
+49,Nomad Outpost,L,0,0,1,0,1,1,0,1,0,0,0,0,3
+50,Overgrown Tomb,L,0,0,0,0,1,0,1,0,0,0,1,0,2
+51,Plains,L,0,0,1,0,0,0,0,0,0,0,1,0,1
+52,Sandsteppe Citadel,L,0,0,1,0,1,0,1,1,0,0,0,0,3
+53,Stomping Ground,L,0,0,0,0,0,1,1,0,0,0,1,0,2
+54,Swamp,L,0,0,0,0,1,0,0,0,0,0,1,0,1
+55,Temple Garden,L,0,0,1,0,0,0,1,0,0,0,1,0,2
+56,Temple Garden,L,0,0,1,0,0,0,1,0,0,0,1,0,2
+57,Temple of Mystery,L,0,0,0,1,0,0,1,1,0,0,0,0,2
+58,Temple of Plenty,L,0,0,1,0,0,0,1,1,0,0,0,0,2
+59,Watery Grave,L,0,0,0,1,1,0,0,0,0,0,1,0,2
+60,Watery Grave,L,0,0,0,1,1,0,0,0,0,0,1,0,2
