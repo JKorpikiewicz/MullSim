@@ -115,10 +115,10 @@ IsDorkPlayableTurnTwo <- function(hand){
   sourceG <- sum(hand[which(hand[3] == 'L'),]$G)
   untap2 <- sum(hand[which(hand[3] == 'L'),]$Untap)
   if (sourceG > 0 && untap2 > 0) {
-    IsDorkPlayableTurnTwo = TRUE
+    return(TRUE)
   }
   else {
-    IsDorkPlayableTurnTwo = FALSE
+    return(FALSE)
   }
 }
 
