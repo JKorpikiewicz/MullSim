@@ -1,4 +1,4 @@
-decklist <- read.csv(file="C:/Users/PC/Desktop/MullSim-master/deck.csv",header=TRUE)
+decklist <- read.csv(file="C:/Users/PC/Desktop/MullSim-master/deck5.csv",header=TRUE)
 
 deck <- decklist
 color.list <- as.data.frame(rbind(c('W','Plains'),c('U','Island'),c('B','Swamp'),c('R','Mountain'),c('G','Forest')))
@@ -28,6 +28,9 @@ df.mull <- data.frame(
   ,stringsAsFactors = FALSE
 )
 
+color.list$val <- df.dk$card_val
+
+
 rep.hand <- data.frame(
   turn=integer()
   ,type=character()
@@ -44,6 +47,7 @@ rep.hand <- data.frame(
 )
 rep.mana <- data.frame(
   turn=integer()
+  ,cnt=integer()
   ,W=integer()
   ,U=integer()
   ,B=integer()
@@ -55,7 +59,7 @@ rep.mana <- data.frame(
 ##TESTOWANIE
 
 # for (i in 1:10000) {
-  dlist <- StartGame(decklist)
+  # dlist <- StartGame(decklist)
   
   
   
@@ -80,35 +84,53 @@ rep.mana <- data.frame(
   #   df.mull <- rbind(df.mull, tmp.row)
   # }
 # }
-##PIERWSZA TURA
+# ##PIERWSZA TURA
+# dlist <- StartGame(decklist)
+# hand <- dlist[[1]]
+# deck <- dlist[[2]]
+# mull.bool <- IsMulligan(hand)
+# print(hand)
+# print(mull.bool)
+# field <- hand[0,]
+# played <- hand[0,]
+mull.cnt <- 0
 
-hand <- dlist[[1]]
-deck <- dlist[[2]]
-mull.bool <- IsMulligan(hand)
-print(hand)
-print(mull.bool)
-field <- hand[0,]
-played <- hand[0,]
-
+for (iterator in 1:1000){
+  dlist <- StartGame(decklist)
+  hand <- dlist[[1]]
+  deck <- dlist[[2]]
+  mull.bool <- IsMulligan(hand)
+  field <- hand[0,]
+  played <- hand[0,]
+  mull.cnt <- mull.cnt + mull.bool
+if (mull.bool == FALSE){
 for (turn in 1:5){
-print(turn)
 if(turn != 1){
   field$Tap <- 0
   draw.arr <- DrawCard(hand,deck)
   hand <- draw.arr[[1]]
   deck <- draw.arr[[2]]
 }
+  
+if (turn == 5 && nrow(hand[which(hand$Name =='Niv Mizzet Reborn'),])) > 0) {
+  
+}
+  
+# print('A1')
 land.to.play <- SelectLandToPlay(hand,field,turn)[1]
-play.arr <- PlayCard(hand,field,SelectLandToPlay(hand,field,turn)[1])
-field <- play.arr[[3]]
-hand <- play.arr[[2]]
-
+if (length(land.to.play)>0) {
+  play.arr <- PlayCard(hand,field,land.to.play)
+  field <- play.arr[[3]]
+  hand <- play.arr[[2]]
+}
+# print('A2')
 if (nrow(field[which(field$Name == 'Fabled Passage'),])>0) {
-  play.arr <- FetchLand(deck,field,WhatToFetch(hand,field,color.list))
+  play.arr <- FetchLand(deck,field,as.character(WhatToFetch(hand,field,color.list)[[1]]))
   field <- play.arr[[1]]
   deck <- play.arr[[2]]
 }
-
+# print('A3')
+if (turn != 5){
 play.card <- SelectCardToPlay(hand,field)[1]
 if (!is.na(play.card)) {
   card.name <- as.character(hand[which(hand$Id == play.card),2])
@@ -124,14 +146,79 @@ if (!is.na(play.card)) {
     hand <- play.arr[[2]]
   }
 }
-manasource <- field[which(field$T == 'L' | field$Dork == 1),]
-rep.mana[turn,1] <- turn
-rep.mana[turn,2] <- sum(as.numeric(manasource$W))
-rep.mana[turn,3] <- sum(as.numeric(manasource$U))
-rep.mana[turn,4] <- sum(as.numeric(manasource$B))
-rep.mana[turn,5] <- sum(as.numeric(manasource$G))
-rep.mana[turn,6] <- sum(as.numeric(manasource$R))
 }
+
+if(turn == 1 && nrow(field)==0){
+  print('cos sie zjebalo')
+  next
+}
+# 
+# print('A4')
+manasource <- field[which(field$T == 'L' | field$Dork == 1 & field$Tap == 0),]
+rep.mana[turn+5*(iterator-1),1] <- turn
+rep.mana[turn+5*(iterator-1),2] <- nrow(manasource)
+rep.mana[turn+5*(iterator-1),3] <- sum(as.numeric(manasource$W))
+rep.mana[turn+5*(iterator-1),4] <- sum(as.numeric(manasource$U))
+rep.mana[turn+5*(iterator-1),5] <- sum(as.numeric(manasource$B))
+rep.mana[turn+5*(iterator-1),6] <- sum(as.numeric(manasource$R))
+rep.mana[turn+5*(iterator-1),7] <- sum(as.numeric(manasource$G))
+
+
+
+
+}
+  print(iterator)
+}
+}
+
+#analiza m5
+
+m5 <- rep.mana[which(rep.mana$turn == 5),]
+means.m5<-colMeans(m5)
+count.m5<-nrow(m5)
+no.W<-nrow(m5[which(m5$W == 0),])
+no.U<-nrow(m5[which(m5$U == 0),])
+no.B<-nrow(m5[which(m5$B == 0),])
+no.G<-nrow(m5[which(m5$G == 0),])
+no.R<-nrow(m5[which(m5$R == 0),])
+no.mana <- nrow(m5[which(m5$cnt < 4),])
+
+print(count.m5/5000)
+print(means.m5)
+print(paste('brak W mana:',no.W/count.m5))
+print(paste('brak U mana:',no.U/count.m5))
+print(paste('brak B mana:',no.B/count.m5))
+print(paste('brak R mana:',no.R/count.m5))
+print(paste('brak G mana:',no.G/count.m5))
+print(paste('brak 4+ mana:',no.mana/count.m5))
+
+decklist6 <- read.csv(file="C:/Users/PC/Desktop/MullSim-master/dork_check/6.csv",header=TRUE)
+decklist7 <- read.csv(file="C:/Users/PC/Desktop/MullSim-master/dork_check/7.csv",header=TRUE)
+decklist8 <- read.csv(file="C:/Users/PC/Desktop/MullSim-master/dork_check/8.csv",header=TRUE)
+deck <- decklist
+
+decklist.t <- read.csv(file="C:/Users/PC/Desktop/MullSim-master/deck4.csv",header=TRUE)
+
+decklist.grp <-list (decklist6, decklist7, decklist8)
+cnt[1] <- 0
+for (i in 1:1){
+  cnt <- 0
+  for (iterator in 1:10000){
+    dlist <- StartGame(decklist.t)
+    hand <- dlist[[1]]
+    deck <- dlist[[2]]
+    draw.arr <- DrawCard(hand,deck)
+    hand <- draw.arr[[1]]
+    deck <- draw.arr[[2]]
+    mull.bool <- IsMulligan(hand)
+    field <- hand[0,]
+    played <- hand[0,]
+    if(IsDorkPlayableTurnTwo(hand) && nrow(hand[which(hand$Dork == 1),])>0){
+      cnt <- cnt + 1
+    }
+  }
+}
+
 
 
 #funkcje
@@ -174,7 +261,9 @@ IsMulligan <- function(hand){
   if ((l.cnt < 2) || (l.cnt > 4)) {
     IsMulligan = TRUE
   } 
-  else if ((l.cnt == 2) && (dork.cnt > 0) && (dork.bool == FALSE)) {
+  else if ((l.cnt == 2) 
+           # && (dork.cnt > 0) 
+           && (dork.bool == FALSE)) {
     IsMulligan = TRUE
   }
   else if (l.cnt + dork.cnt > 5 
@@ -263,14 +352,15 @@ SelectLandToPlay <- function(hand, field, turn){
   mana.need <- colSums(t(t(cr[,6:10]) - colSums(field[,6:10])))
   col.missing <- colnames(t(mana.need[which(mana.need == max(mana.need))]))
   col.missing.df <- as.data.frame(col.missing)
-  
+  l.g <- l[which(l$G == 1),]
   if (turn == 1) {
     l.tap <- l[which(l$Tap == 1),]
     if (nrow(l.tap) > 0) {
       return(l.tap[which(l.tap$Mana_val == max(l.tap$Mana_val)),1][1])
+    } else if(nrow(l.g) > 0){
+            return(l.g[which(l.g$Mana_val == max(l.g$Mana_val)),1][1])
     } else {
-      l.g <- l[which(l$G == 1),]
-      return(l.g[which(l.g$Mana_val == max(l.g$Mana_val)),1][1])
+      return(l[which(l$Mana_val == max(l$Mana_val)),1][1])
     }
   } else {
     l.w <- l[which(l$Mana_val == max(l$Mana_val)),]
@@ -282,16 +372,16 @@ SelectLandToPlay <- function(hand, field, turn){
       l.t <- l[0,]
       for (i in 1:nrow(col.missing.df)){
         l.u <- rbind(l.u, l[which(l[as.character(col.missing.df[i,])] == 1 & l$Untap == 1),])
-        l.t <- rbind(l.u, l[which(l[as.character(col.missing.df[i,])] == 1),])
+        l.t <- rbind(l.t, l[which(l[as.character(col.missing.df[i,])] == 1),])
       }
     }
     
     if (nrow(l.u) > 0) {
-      return(l.u[which(l.u$Mana_val == max(l.u$Mana_val)),1])
+      return(l.u[which(l.u$Mana_val == max(l.u$Mana_val)),1][1])
     } else if (nrow(l.t) > 0){
-      return(l.t[which(l.t$Mana_val == max(l.t$Mana_val)),1])
+      return(l.t[which(l.t$Mana_val == max(l.t$Mana_val)),1][1])
     } else {
-      return(l.w[which(l.w$Mana_val == max(l.w$Mana_val)),1])
+      return(l.w[which(l.w$Mana_val == max(l.w$Mana_val)),1][1])
     }
   }
 }
@@ -307,9 +397,9 @@ SelectCardToPlay <- function(hand, field){
   cr.uro <- cr[which(cr$Name == 'Uro'),]}
   if (nrow(cr) == 0) {
     return(hand[0,1])
-  } else if (nrow(cr.uro) > 0) {
+  } else if (exists('cr.uro') && nrow(cr.uro) > 0) {
     return(cr.uro[1,1])
-  } else if (nrow(cr.dork) > 0) {
+  } else if (exists('cr.dork') &&nrow(cr.dork) > 0) {
     return(cr.dork[1,1])
   } else {
     return(cr[1,1])
@@ -319,6 +409,7 @@ SelectCardToPlay <- function(hand, field){
 colMax <- function(data) sapply(data, max, na.rm = TRUE)
 
 WhatToFetch <- function(hand,field,aux){
+  fetchable.lands <- color.list[which(color.list$basic %in% deck$Name),]
   lands.hand <- hand[which(hand$T == 'L'),]
   lands.field <- field[which(field$T == 'L' & field$F != 1),]
   dorks.field <- field[which(field$Dork == 1),]
@@ -327,16 +418,33 @@ WhatToFetch <- function(hand,field,aux){
   mana.req <- colMax(hand[which(hand$T != 'L'),][6:10])
   mx <- mana.req - mana.gen
   req.color <- colnames(mana.sources)[5+which(mx == max(mx))[[1]]]
+  if (nrow(fetchable.lands[which(fetchable.lands$short == req.color),]) == 0){
+    return(fetchable.lands[which(fetchable.lands$val == max(fetchable.lands$val)),][[2]])
+  }
   return(as.character(aux[which(aux$short == req.color),][[2]]))
 }
 
 FetchLand <- function(deck,field,name){
   fetched.land <- deck[which(deck$Name == name),]
-  field.new <- rbind(field[which(field$Name != 'Fabled Passage')],fetched.land)
+  field.new <- rbind(field[which(field$Name != 'Fabled Passage'),],fetched.land)
   deck.new <- deck[which(deck$Name != name),]
   return (list(field.new, deck.new))
 }
 
+CheckNivValue <- function(deck){
+  revealed.cards <- deck[1:10,]
+  nonland.revealed <- revealed.cards[which(revealed.cards$T != 'L'),]
+  nonland.revealed$multi <- nonland.revealed$W + nonland.revealed$U + nonland.revealed$B + nonland.revealed$R + nonland.revealed$G
+  nonland.revealed[which(nonland.revealed$Name == 
+                                 'Bring To Light'),]$multi <- 2
+  possible.draw <- nonland.revealed[which(nonland.revealed$multi == 2),]
+  
+  for (i in 1:nrow(possible.draw)){
+    
+  }
+}
+
+a<-names(possible.draw1)[which(possible.draw1 == 1, arr.ind=T)[, "col"]]
 
 #####STARE GENEROWANIE ROZKLADOW#####
 decklist1 <- read.csv(file="C:/Users/PC/Desktop/MullSim-master/deck.csv",header = TRUE)
